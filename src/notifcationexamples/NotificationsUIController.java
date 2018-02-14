@@ -74,6 +74,61 @@ public class NotificationsUIController implements Initializable, Notifiable {
             task1 = null;
             task1Button.setText("Start Task 1");
         }
+        
+        notificationTextSetter();
+    }
+    
+    @Override
+    public void notify(String message) {
+        if (message.equals("Task1 done.")) {
+            task1 = null;
+        }
+        textArea.appendText(message + "\n");
+    }
+    
+    @FXML
+    public void startTask2(ActionEvent event) {
+        System.out.println("start task 2");
+        if (task2 == null) {
+            task2 = new Task2(2147483647, 1000000);
+            task2.setOnNotification((String message) -> {
+                textArea.appendText(message + "\n");
+            });
+            task2Button.setText("End Task 2");
+            
+            task2.start();
+        }else {
+            task2.end();
+            task2 = null;
+            task2Button.setText("Start Task 2");
+        }
+
+        notificationTextSetter();
+    }
+    
+    @FXML
+    public void startTask3(ActionEvent event) {
+        System.out.println("start task 3");
+        if (task3 == null) {
+            task3 = new Task3(2147483647, 1000000);
+            // this uses a property change listener to get messages
+            task3.addPropertyChangeListener((PropertyChangeEvent evt) -> {
+                textArea.appendText((String)evt.getNewValue() + "\n");
+            });
+            task3Button.setText("End Task 3");
+            
+            task3.start();
+        }else {
+            task3.end();
+            task3 = null;
+            task3Button.setText("Start Task 3");
+        }
+        
+        notificationTextSetter(); 
+        
+    }
+    
+    public void notificationTextSetter(){
         // 0 0 0
         if(task1 == null && task3 == null && task2 == null){
             notificationText.setText("No Tasks Running");
@@ -107,69 +162,4 @@ public class NotificationsUIController implements Initializable, Notifiable {
             notificationText.setText("All Tasks Running");
         }
     }
-    
-    @Override
-    public void notify(String message) {
-        if (message.equals("Task1 done.")) {
-            task1 = null;
-        }
-        textArea.appendText(message + "\n");
-    }
-    
-    @FXML
-    public void startTask2(ActionEvent event) {
-        System.out.println("start task 2");
-        if (task2 == null) {
-            task2 = new Task2(2147483647, 1000000);
-            task2.setOnNotification((String message) -> {
-                textArea.appendText(message + "\n");
-            });
-            task2Button.setText("End Task 2");
-            
-            task2.start();
-        }else {
-            task2.end();
-            task2 = null;
-            task2Button.setText("Start Task 2");
-        }
-
-        if(task3 == null && task1 == null){
-            notificationText.setText("Task 2 Running");
-        }else if(task3 == null && task1 != null){
-            notificationText.setText("Task 1 and Task 2 Running");
-        }else if(task3 != null && task1 == null){
-            notificationText.setText("Task 2 and Task 3 Running");
-        }else if(task3 != null && task1 != null){
-            notificationText.setText("All Tasks Running");
-        }
-    }
-    
-    @FXML
-    public void startTask3(ActionEvent event) {
-        System.out.println("start task 3");
-        if (task3 == null) {
-            task3 = new Task3(2147483647, 1000000);
-            // this uses a property change listener to get messages
-            task3.addPropertyChangeListener((PropertyChangeEvent evt) -> {
-                textArea.appendText((String)evt.getNewValue() + "\n");
-            });
-            task3Button.setText("End Task 3");
-            
-            task3.start();
-        }else {
-            task3.end();
-            task3 = null;
-            task3Button.setText("Start Task 3");
-        }
-        
-        if(task1 == null && task2 == null){
-            notificationText.setText("Task 3 Running");
-        }else if(task1 == null && task2 != null){
-            notificationText.setText("Task 2 and Task 3 Running");
-        }else if(task1 != null && task2 == null){
-            notificationText.setText("Task 1 and Task 3 Running");
-        }else if(task2 != null && task1 != null){
-            notificationText.setText("All Tasks Running");
-        }
-    } 
 }
