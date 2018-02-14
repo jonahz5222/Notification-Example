@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
@@ -12,5 +13,6 @@
       <Button layoutX="107.0" layoutY="23.0" mnemonicParsing="false" onAction="#startTask2" text="Task 2" />
       <Button layoutX="185.0" layoutY="23.0" mnemonicParsing="false" onAction="#startTask3" text="Task 3" />
       <TextArea fx:id="textArea" layoutX="29.0" layoutY="66.0" prefHeight="307.0" prefWidth="542.0" />
+      <Text fx:id="notificationText" layoutX="272.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
    </children>
 </AnchorPane>

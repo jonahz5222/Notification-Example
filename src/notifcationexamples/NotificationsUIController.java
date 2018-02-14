@@ -6,7 +6,6 @@
 package notifcationexamples;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -14,6 +13,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import taskers.*;
@@ -27,6 +27,9 @@ public class NotificationsUIController implements Initializable, Notifiable {
 
     @FXML
     private TextArea textArea;
+    
+    @FXML
+    private Text notificationText;
     
     private Task1 task1;
     private Task2 task2;
@@ -50,10 +53,21 @@ public class NotificationsUIController implements Initializable, Notifiable {
     @FXML
     public void startTask1(ActionEvent event) {
         System.out.println("start task 1");
+        
         if (task1 == null) {
             task1 = new Task1(2147483647, 1000000);
             task1.setNotificationTarget(this);
             task1.start();
+        }
+        
+        if(task3 == null && task2 == null){
+            notificationText.setText("Task 1 Running");
+        }else if(task3 == null && task2 != null){
+            notificationText.setText("Task 1 and Task 2 Running");
+        }else if(task3 != null && task2 == null){
+            notificationText.setText("Task 1 and Task 3 Running");
+        }else if(task3 != null && task2 != null){
+            notificationText.setText("All Tasks Running");
         }
     }
     
@@ -75,7 +89,17 @@ public class NotificationsUIController implements Initializable, Notifiable {
             });
             
             task2.start();
-        }        
+        }
+
+        if(task3 == null && task1 == null){
+            notificationText.setText("Task 2 Running");
+        }else if(task3 == null && task1 != null){
+            notificationText.setText("Task 1 and Task 2 Running");
+        }else if(task3 != null && task1 == null){
+            notificationText.setText("Task 2 and Task 3 Running");
+        }else if(task3 != null && task1 != null){
+            notificationText.setText("All Tasks Running");
+        }
     }
     
     @FXML
@@ -89,6 +113,16 @@ public class NotificationsUIController implements Initializable, Notifiable {
             });
             
             task3.start();
+        }
+        
+        if(task1 == null && task2 == null){
+            notificationText.setText("Task 3 Running");
+        }else if(task1 == null && task2 != null){
+            notificationText.setText("Task 2 and Task 3 Running");
+        }else if(task1 != null && task2 == null){
+            notificationText.setText("Task 1 and Task 3 Running");
+        }else if(task2 != null && task1 != null){
+            notificationText.setText("All Tasks Running");
         }
     } 
 }
