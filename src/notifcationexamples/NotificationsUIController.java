@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -30,6 +31,15 @@ public class NotificationsUIController implements Initializable, Notifiable {
     
     @FXML
     private Text notificationText;
+    
+    @FXML
+    private Button task1Button;
+    
+    @FXML
+    private Button task2Button;
+    
+    @FXML
+    private Button task3Button;
     
     private Task1 task1;
     private Task2 task2;
@@ -57,16 +67,43 @@ public class NotificationsUIController implements Initializable, Notifiable {
         if (task1 == null) {
             task1 = new Task1(2147483647, 1000000);
             task1.setNotificationTarget(this);
+            task1Button.setText("End Task 1");
             task1.start();
+        }else {
+            task1.end();
+            task1 = null;
+            task1Button.setText("Start Task 1");
         }
-        
-        if(task3 == null && task2 == null){
+        // 0 0 0
+        if(task1 == null && task3 == null && task2 == null){
+            notificationText.setText("No Tasks Running");
+        }
+        //0 0 1
+        else if(task1 == null && task3 == null && task2 != null){
+            notificationText.setText("Task 2 Running");
+        }
+        // 0 1 0
+        else if(task1 == null && task3 != null && task2 == null){
+            notificationText.setText("Task 3 Running");
+        }
+        // 0 1 1
+        else if(task1 == null && task3 != null && task2 != null){
+            notificationText.setText("Task 2 and Task 3 Running");
+        }
+        // 1 0 0
+        else if(task1 != null && task3 == null && task2 == null){
             notificationText.setText("Task 1 Running");
-        }else if(task3 == null && task2 != null){
+        }
+        // 1 0 1
+        else if(task1 != null && task3 == null && task2 != null){
             notificationText.setText("Task 1 and Task 2 Running");
-        }else if(task3 != null && task2 == null){
+        }
+        // 1 1 0
+        else if(task1 != null && task3 != null && task2 == null){
             notificationText.setText("Task 1 and Task 3 Running");
-        }else if(task3 != null && task2 != null){
+        }
+        // 1 1 1
+        else if(task1 != null && task3 != null && task2 != null){
             notificationText.setText("All Tasks Running");
         }
     }
@@ -87,8 +124,13 @@ public class NotificationsUIController implements Initializable, Notifiable {
             task2.setOnNotification((String message) -> {
                 textArea.appendText(message + "\n");
             });
+            task2Button.setText("End Task 2");
             
             task2.start();
+        }else {
+            task2.end();
+            task2 = null;
+            task2Button.setText("Start Task 2");
         }
 
         if(task3 == null && task1 == null){
@@ -111,8 +153,13 @@ public class NotificationsUIController implements Initializable, Notifiable {
             task3.addPropertyChangeListener((PropertyChangeEvent evt) -> {
                 textArea.appendText((String)evt.getNewValue() + "\n");
             });
+            task3Button.setText("End Task 3");
             
             task3.start();
+        }else {
+            task3.end();
+            task3 = null;
+            task3Button.setText("Start Task 3");
         }
         
         if(task1 == null && task2 == null){
