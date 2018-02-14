@@ -83,13 +83,6 @@ public class NotificationsUIController implements Initializable, Notifiable {
         if (message.equals("Task1 done.")) {
             task1 = null;
         }
-        if (message.equals("Task2 done.")){
-            task2 = null;
-            System.out.println("printing from notify task2 done.");
-        }
-        if(message.equals("Task3 done.")){
-            task3 = null;
-        }
             
         textArea.appendText(message + "\n");
         notificationTextSetter();
@@ -102,6 +95,10 @@ public class NotificationsUIController implements Initializable, Notifiable {
             task2 = new Task2(2147483647, 1000000);
             task2.setOnNotification((String message) -> {
                 textArea.appendText(message + "\n");
+                if(message.equals("Task2 done.")){
+                    task2 = null;
+                    notificationTextSetter();
+                }
             });
             
             
@@ -123,6 +120,11 @@ public class NotificationsUIController implements Initializable, Notifiable {
             // this uses a property change listener to get messages
             task3.addPropertyChangeListener((PropertyChangeEvent evt) -> {
                 textArea.appendText((String)evt.getNewValue() + "\n");
+                
+                if(evt.getNewValue().equals("Task3 done.")){
+                    task3 = null;
+                    notificationTextSetter();
+                }
             });
             
             

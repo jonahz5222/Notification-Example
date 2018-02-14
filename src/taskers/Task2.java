@@ -43,6 +43,7 @@ public class Task2 extends Thread {
                 return;
             }
         }
+        
         doNotify("Task2 done.");
     }
     
