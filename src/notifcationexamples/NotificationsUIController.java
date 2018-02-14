@@ -67,12 +67,12 @@ public class NotificationsUIController implements Initializable, Notifiable {
         if (task1 == null) {
             task1 = new Task1(2147483647, 1000000);
             task1.setNotificationTarget(this);
-            task1Button.setText("End Task 1");
+           
             task1.start();
         }else {
             task1.end();
             task1 = null;
-            task1Button.setText("Start Task 1");
+           
         }
         
         notificationTextSetter();
@@ -83,7 +83,16 @@ public class NotificationsUIController implements Initializable, Notifiable {
         if (message.equals("Task1 done.")) {
             task1 = null;
         }
+        if (message.equals("Task2 done.")){
+            task2 = null;
+            System.out.println("printing from notify task2 done.");
+        }
+        if(message.equals("Task3 done.")){
+            task3 = null;
+        }
+            
         textArea.appendText(message + "\n");
+        notificationTextSetter();
     }
     
     @FXML
@@ -94,13 +103,13 @@ public class NotificationsUIController implements Initializable, Notifiable {
             task2.setOnNotification((String message) -> {
                 textArea.appendText(message + "\n");
             });
-            task2Button.setText("End Task 2");
+            
             
             task2.start();
         }else {
             task2.end();
             task2 = null;
-            task2Button.setText("Start Task 2");
+           
         }
 
         notificationTextSetter();
@@ -115,13 +124,13 @@ public class NotificationsUIController implements Initializable, Notifiable {
             task3.addPropertyChangeListener((PropertyChangeEvent evt) -> {
                 textArea.appendText((String)evt.getNewValue() + "\n");
             });
-            task3Button.setText("End Task 3");
+            
             
             task3.start();
         }else {
             task3.end();
             task3 = null;
-            task3Button.setText("Start Task 3");
+            
         }
         
         notificationTextSetter(); 
@@ -132,34 +141,58 @@ public class NotificationsUIController implements Initializable, Notifiable {
         // 0 0 0
         if(task1 == null && task3 == null && task2 == null){
             notificationText.setText("No Tasks Running");
+            task1Button.setText("Start Task 1");
+            task2Button.setText("Start Task 2");
+            task3Button.setText("Start Task 3");
         }
         //0 0 1
         else if(task1 == null && task3 == null && task2 != null){
             notificationText.setText("Task 2 Running");
+            task1Button.setText("Start Task 1");
+            task2Button.setText("End Task 2");
+            task3Button.setText("Start Task 3");
         }
         // 0 1 0
         else if(task1 == null && task3 != null && task2 == null){
             notificationText.setText("Task 3 Running");
+            task1Button.setText("Start Task 1");
+            task2Button.setText("Start Task 2");
+            task3Button.setText("End Task 3");
         }
         // 0 1 1
         else if(task1 == null && task3 != null && task2 != null){
             notificationText.setText("Task 2 and Task 3 Running");
+            task1Button.setText("Start Task 1");
+            task2Button.setText("End Task 2");
+            task3Button.setText("End Task 3");
         }
         // 1 0 0
         else if(task1 != null && task3 == null && task2 == null){
             notificationText.setText("Task 1 Running");
+            task1Button.setText("End Task 1");
+            task2Button.setText("Start Task 2");
+            task3Button.setText("Start Task 3");
         }
         // 1 0 1
         else if(task1 != null && task3 == null && task2 != null){
             notificationText.setText("Task 1 and Task 2 Running");
+            task1Button.setText("End Task 1");
+            task2Button.setText("End Task 2");
+            task3Button.setText("Start Task 3");
         }
         // 1 1 0
         else if(task1 != null && task3 != null && task2 == null){
             notificationText.setText("Task 1 and Task 3 Running");
+            task1Button.setText("End Task 1");
+            task2Button.setText("Start Task 2");
+            task3Button.setText("End Task 3");
         }
         // 1 1 1
         else if(task1 != null && task3 != null && task2 != null){
             notificationText.setText("All Tasks Running");
+            task1Button.setText("End Task 1");
+            task2Button.setText("End Task 2");
+            task3Button.setText("End Task 3");
         }
     }
 }
